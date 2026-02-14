@@ -30,11 +30,8 @@ else:
     # Development defaults
     cors_origins = ["http://localhost:3000", "http://localhost:5173"]
 
-# For production, also allow wildcard if not specified (or use specific production URL)
-# Replace "https://your-frontend-url.vercel.app" with your actual production frontend URL
-production_frontend = os.environ.get("PRODUCTION_FRONTEND_URL", "https://your-frontend-url.vercel.app")
-if production_frontend and production_frontend != "https://your-frontend-url.vercel.app":
-    cors_origins.append(production_frontend)
+# Add production frontend URL
+cors_origins.append("https://mentalhealthfrontend-3.onrender.com")
 
 app.add_middleware(
     CORSMiddleware,
