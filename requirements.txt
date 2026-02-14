@@ -29,3 +29,4 @@ python-dateutil>=2.8.0
 
 # Database - PostgreSQL driver for Render
 psycopg2-binary>=2.9.0
+argon2-cffi
