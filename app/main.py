@@ -20,7 +20,22 @@ app = FastAPI(
 
 # Configure CORS - allows environment variable for Render deployment
 # Default to localhost for development
-cors_origins = os.environ.get("CORS_ORIGINS", "http://localhost:3000,http://localhost:5173").split(",")
+# In production, use environment variable CORS_ORIGINS or allow all (use with caution)
+cors_origins_env = os.environ.get("CORS_ORIGINS", "")
+
+# If CORS_ORIGINS is set, use it; otherwise use defaults
+if cors_origins_env:
+    cors_origins = cors_origins_env.split(",")
+else:
+    # Development defaults
+    cors_origins = ["http://localhost:3000", "http://localhost:5173"]
+
+# For production, also allow wildcard if not specified (or use specific production URL)
+# Replace "https://your-frontend-url.vercel.app" with your actual production frontend URL
+production_frontend = os.environ.get("PRODUCTION_FRONTEND_URL", "https://your-frontend-url.vercel.app")
+if production_frontend and production_frontend != "https://your-frontend-url.vercel.app":
+    cors_origins.append(production_frontend)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
